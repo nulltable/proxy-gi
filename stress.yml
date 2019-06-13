@@ -1,0 +1,74 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 30
+      arrivalRate: 1
+  defaults:
+    headers:
+      x-my-service-auth: "0"
+  variables:
+    date:
+      - "2019-06-11"
+      - "2019-06-12"
+      - "2019-06-13"
+      - "2019-06-14"
+      - "2019-06-15"
+      - "2019-06-16"
+      - "2019-06-17"
+      - "2019-06-18"
+      - "2019-06-19"
+      - "2019-06-20"
+      - "2019-06-21"
+      - "2019-06-22"
+      - "2019-06-23"
+      - "2019-06-24"
+      - "2019-06-25"
+      - "2019-06-26"
+      - "2019-06-27"
+      - "2019-06-28"
+      - "2019-06-29"
+      - "2019-06-30"
+    time:
+      - "6:00 PM"
+      - "6:15 PM"
+      - "6:30 PM"
+      - "6:45 PM"
+      - "7:00 PM"
+      - "7:15 PM"
+      - "7:30 PM"
+      - "7:45 PM"
+      - "8:00 PM"
+      - "8:15 PM"
+      - "8:30 PM"
+      - "8:45 PM"
+    createdOn:
+      - "2019-06-01"
+      - "2019-06-02"
+      - "2019-06-03"
+      - "2019-06-04"
+      - "2019-06-05"
+scenarios:
+  - name: "GET all reservations for a restaurant"
+    weight: 4
+    flow:
+      - loop:
+        - get:
+            url: "/{{ $randomNumber(9000000, 10000000) }}"
+        - get:
+            url: "/{{ $randomNumber(9000000, 10000000) }}/reservations"
+        count: 10
+  - name: "GET then POST"
+    weight: 1
+    flow:
+      - loop:
+        - get:
+            url: "/{{ $randomNumber(9000000, 10000000) }}"
+        - post:
+            url: "/{{ $randomNumber(9000000, 10000000) }}/reservations"
+            json:
+              userId: "{{ $randomNumber(9000, 10000) }}"
+              date: "{{ date }}"
+              time: "{{ time }}"
+              partySize: "{{ $randomNumber(1, 6) }}"
+              createdOn: "{{ createdOn }}"
+        count: 10

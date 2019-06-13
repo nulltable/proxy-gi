@@ -6,14 +6,15 @@
     "url": "git+https://github.com/freeseats/slhodak-proxy.git"
   },
   "description": "A reviews module for restaurant-goers' opinions",
-  "author": "Sam Hodak",
+  "author": "Sam Hodak and Gregory Inouye",
   "license": "ISC",
   "engines": {
     "node": ">=6.13.0"
   },
   "scripts": {
     "server-dev": "nodemon ./server/index.js",
-    "start": "node ./server/index.js"
+    "start": "node ./server/index.js",
+    "pm2": "pm2 start -i 0 ./server/index.js --node-args='--max-old-space-size=8192'"
   },
   "dependencies": {
     "express": "^4.16.4"
