@@ -1,8 +1,13 @@
+require('newrelic');
 const express = require('express');
 const path = require('path');
+const proxy = require('http-proxy-middleware');
+
 const app = express();
+const port = process.env.PORT || 3000;
 
 app.use(express.static(path.resolve(__dirname, '../public')));
+app.use('/*/reservations*', proxy('http://localhost:3020'));
 
 app.get('/:id', (req, res) => {
   if (!req.params.id) {
@@ -13,6 +18,6 @@ app.get('/:id', (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log('Open Table proxy server listening on port 3000!');
+app.listen(port, () => {
+  console.log(`Open Table proxy server listening on port ${port}!`);
 });
